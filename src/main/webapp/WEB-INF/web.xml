@@ -28,5 +28,24 @@
         <url-pattern>/loginUser</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>InstructorDashboardServlet</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.InstructorDashboardServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>InstructorDashboardServlet</servlet-name>
+        <url-pattern>/instructor-dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>StudentDashboardServlet</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.StudentDashboardServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>StudentDashboardServlet</servlet-name>
+        <url-pattern>/student-dashboard</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

@@ -18,7 +18,26 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white p-6 rounded-lg shadow-md w-96">
         <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
-        <form action="LoginServlet" method="POST">
+        <%
+            String successMessage = (String) request.getAttribute("successMessage");
+            String errorMessage = (String) request.getAttribute("errorMessage");
+
+            if (successMessage != null) {
+        %>
+        <div style="background-color: green; color: white; padding: 10px;">
+            <%= successMessage %>
+        </div>
+        <%
+            }
+            if (errorMessage != null) {
+        %>
+        <div style="background-color: red; color: white; padding: 10px;">
+            <%= errorMessage %>
+        </div>
+        <%
+            }
+        %>
+        <form action="loginUser" method="POST">
             <input type="email" name="email" placeholder="Email" class="w-full p-2 border rounded mb-3">
             <input type="password" name="password" placeholder="Password" class="w-full p-2 border rounded mb-3">
             <select name="role" class="w-full p-2 border rounded mb-3">
@@ -27,7 +46,7 @@
             </select>
             <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">Login</button>
             <h1>Don't have an account?
-                <span><a href="${pageContext.request.contextPath}/signup">Login</a></span>
+                <span><a href="${pageContext.request.contextPath}/signup">Signup</a></span>
             </h1>
         </form>
     </div>

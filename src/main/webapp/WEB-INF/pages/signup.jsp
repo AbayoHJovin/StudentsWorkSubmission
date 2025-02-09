@@ -52,7 +52,7 @@
             }
         %>
         <!-- Form for user registration -->
-        <form action="SignupServlet" method="POST">
+            <form action="SignupServlet" method="POST">
             <!-- First Name -->
             <div class="mb-4">
                 <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>

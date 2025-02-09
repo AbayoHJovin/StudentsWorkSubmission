@@ -20,6 +20,19 @@ public class StudentService {
         return studentService;
     }
     private StudentService(){}
+    public boolean isStudentEmailExists(String email) {
+        session = sessionFactory.openSession();
+        try {
+            Student student = session.createQuery("FROM Student WHERE email = :email", Student.class)
+                    .setParameter("email", email)
+                    .uniqueResult();
+            return student != null;
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
     public void addStudent(Student student){
         session=sessionFactory.openSession();
         session.beginTransaction();
@@ -30,5 +43,12 @@ public class StudentService {
         session=sessionFactory.openSession();
         List<Student> students = session.createQuery("from Student").list();
         return students;
+    }
+    public Student getStudentByEmail(String email) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Student WHERE email = :email", Student.class)
+                    .setParameter("email", email)
+                    .uniqueResult();
+        }
     }
 }
