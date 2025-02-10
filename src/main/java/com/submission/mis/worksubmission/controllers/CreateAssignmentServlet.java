@@ -78,7 +78,7 @@ public class CreateAssignmentServlet extends HttpServlet {
             response.sendRedirect("instructor-dashboard");
         } catch (Exception e) {
             request.setAttribute("errorMessage", "Failed to create assignment: " + e.getMessage());
-            request.getRequestDispatcher("WEB-INF/pages/instructor-dashboard.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/pages/trDashboard.jsp").forward(request, response);
         }
     }
 }

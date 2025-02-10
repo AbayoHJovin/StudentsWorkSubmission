@@ -78,6 +78,13 @@ public class CourseService {
         }
     }
 
+    public Course getCourseById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Course.class, id);
+        }
+    }
+
+
     public void addCourse(Course course) {
         Session session = null;
         try {
