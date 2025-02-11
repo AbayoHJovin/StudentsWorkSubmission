@@ -21,7 +21,7 @@
     <div class="p-6">
         <h2 class="text-2xl font-bold">Welcome, <%= session.getAttribute("userName") %></h2>
         <% if (session.getAttribute("role").equals("INSTRUCTOR")) { %>
-        <a href="create-assignment.jsp" class="bg-green-500 text-white p-2 rounded inline-block mt-4">Create Assignment</a>
+        <a href="createAssignment.jsp" class="bg-green-500 text-white p-2 rounded inline-block mt-4">Create Assignment</a>
         <% } else { %>
         <a href="submit-assignment.jsp" class="bg-blue-500 text-white p-2 rounded inline-block mt-4">Submit Assignment</a>
         <% } %>

@@ -46,6 +46,14 @@
         <servlet-name>StudentDashboardServlet</servlet-name>
         <url-pattern>/student-dashboard</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>CreateAssignmentServlet</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.CreateAssignmentServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>CreateAssignmentServlet</servlet-name>
+        <url-pattern>/create-assignment</url-pattern>
+    </servlet-mapping>
 
 </web-app>

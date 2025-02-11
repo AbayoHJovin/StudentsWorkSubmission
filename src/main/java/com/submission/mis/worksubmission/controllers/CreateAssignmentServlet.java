@@ -17,12 +17,19 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet("/create-assignment")
 public class CreateAssignmentServlet extends HttpServlet {
     private final AssignmentService assignmentService = AssignmentService.getInstance();
     private static final String UPLOAD_DIRECTORY = "uploads";
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("WEB-INF/pages/createAssignment.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,46 +46,100 @@ public class CreateAssignmentServlet extends HttpServlet {
             uploadDir.mkdir();
         }
 
+        Map<String, String> errors = new HashMap<>(); // Store validation errors
+        String title = null, description = null, deadlineStr = null, courseIdStr = null;
+        String filePath = null;
+
         try {
             List<FileItem> formItems = new ServletFileUpload(new DiskFileItemFactory()).parseRequest((javax.servlet.http.HttpServletRequest) request);
-            String title = null, description = null, deadlineStr = null, courseIdStr = null;
-            String fileName = null;
 
+            // Parse form data
             for (FileItem item : formItems) {
                 if (item.isFormField()) {
                     switch (item.getFieldName()) {
                         case "title":
                             title = item.getString();
+                            if (title == null || title.trim().isEmpty()) {
+                                errors.put("title", "Title is required.");
+                            }
                             break;
                         case "description":
                             description = item.getString();
+                            if (description == null || description.trim().isEmpty()) {
+                                errors.put("description", "Description is required.");
+                            }
                             break;
                         case "deadline":
                             deadlineStr = item.getString();
+                            if (deadlineStr == null || deadlineStr.trim().isEmpty()) {
+                                errors.put("deadline", "Deadline is required.");
+                            }
                             break;
                         case "courseId":
                             courseIdStr = item.getString();
+                            if (courseIdStr == null || courseIdStr.trim().isEmpty()) {
+                                errors.put("courseId", "Course ID is required.");
+                            }
                             break;
                     }
                 } else {
-                    fileName = new File(item.getName()).getName();
-                    String filePath = uploadPath + File.separator + fileName;
-                    item.write(new File(filePath));
+                    if (!item.getName().isEmpty()) {
+                        String fileName = new File(item.getName()).getName();
+                        filePath = uploadPath + File.separator + fileName;
+                        item.write(new File(filePath));
+                    }
                 }
             }
 
-            LocalDate deadline = LocalDate.parse(deadlineStr);
-            int courseId = Integer.parseInt(courseIdStr);
+            // Validate deadline format and ensure it's in the future
+            LocalDate deadline = null;
+            if (deadlineStr != null && !deadlineStr.trim().isEmpty()) {
+                try {
+                    deadline = LocalDate.parse(deadlineStr);
+                    if (deadline.isBefore(LocalDate.now())) {
+                        errors.put("deadline", "Deadline must be a future or current date.");
+                    }
+                } catch (DateTimeParseException e) {
+                    errors.put("deadline", "Invalid date format. Use YYYY-MM-DD.");
+                }
+            }
+
+            // Validate course ID
+            int courseId = 0;
+            if (courseIdStr != null && !courseIdStr.trim().isEmpty()) {
+                try {
+                    courseId = Integer.parseInt(courseIdStr);
+                } catch (NumberFormatException e) {
+                    errors.put("courseId", "Invalid course ID.");
+                }
+            }
+
+            // If there are validation errors, return to the form with error messages
+            if (!errors.isEmpty()) {
+                request.setAttribute("errors", errors);
+                request.getRequestDispatcher("WEB-INF/pages/createAssignment.jsp").forward(request, response);
+                return;
+            }
+
+            // Create the assignment
             Course course = new Course();
             course.setId(courseId);
 
-            Assignment assignment = new Assignment(title, description, deadline, UPLOAD_DIRECTORY + "/" + fileName, instructor, course);
+            Assignment assignment = new Assignment(
+                    title,
+                    description,
+                    deadline,
+                    filePath != null ? UPLOAD_DIRECTORY + "/" + new File(filePath).getName() : null,
+                    instructor,
+                    course
+            );
             assignmentService.addAssignment(assignment);
 
-            response.sendRedirect("instructor-dashboard");
+            // Redirect to the success page
+            response.sendRedirect("success");
         } catch (Exception e) {
             request.setAttribute("errorMessage", "Failed to create assignment: " + e.getMessage());
-            request.getRequestDispatcher("WEB-INF/pages/trDashboard.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/pages/createAssignment.jsp").forward(request, response);
         }
     }
 }
