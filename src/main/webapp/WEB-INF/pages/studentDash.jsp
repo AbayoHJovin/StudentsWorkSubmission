@@ -1,48 +1,3 @@
-<%--    <!-- Courses Section -->--%>
-<%--    <div class="bg-white p-6 rounded-lg shadow-md mb-6">--%>
-<%--        <h2 class="text-xl font-semibold mb-4">All Courses</h2>--%>
-<%--        <ul class="space-y-2">--%>
-<%--            <c:forEach items="${courses}" var="course">--%>
-<%--                <li class="p-4 bg-gray-50 rounded-lg">--%>
-<%--                    <h3 class="font-semibold">${course.name}</h3>--%>
-
-<%--                    <!-- Instructors List -->--%>
-<%--                    <p class="text-sm text-gray-600 font-semibold">Instructors:</p>--%>
-<%--                    <ul class="ml-4">--%>
-<%--                        <c:forEach items="${course.instructors}" var="instructor">--%>
-<%--                            <li class="text-sm text-gray-600">--%>
-<%--                                    ${instructor.firstName} ${instructor.lastName} - ${instructor.email}--%>
-<%--                            </li>--%>
-<%--                        </c:forEach>--%>
-<%--                    </ul>--%>
-
-<%--                    <!-- Assignments for the Course -->--%>
-<%--&lt;%&ndash;                    <div class="mt-2">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        <h4 class="font-semibold">Assignments</h4>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        <c:forEach items="${course.assignments}" var="assignment">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                            <div class="p-3 bg-gray-100 rounded-lg mt-2">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                <h5 class="font-medium">${assignment.title}</h5>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                <p class="text-sm text-gray-600">${assignment.description}</p>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                <p class="text-sm text-gray-600">Deadline: ${assignment.deadline}</p>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                <a href="${assignment.assignmentLink}" class="text-blue-500 text-sm">Download Assignment</a>&ndash;%&gt;--%>
-
-<%--&lt;%&ndash;                                <form action="submit-assignment" method="POST" enctype="multipart/form-data" class="mt-2">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                    <input type="hidden" name="assignmentId" value="${assignment.id}">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                    <input type="file" name="file" class="w-full p-2 border rounded mb-2" required>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                    <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded">Submit Work</button>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                </form>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                            </div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        </c:forEach>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
-<%--                </li>--%>
-<%--            </c:forEach>--%>
-
-<%--        </ul>--%>
-<%--    </div>--%>
-<%--</div>--%>
-<%--</body>--%>
-<%--</html>--%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
@@ -56,7 +11,11 @@
 <!-- Navbar -->
 <nav class="bg-indigo-600 p-4 flex justify-between items-center text-white">
     <div class="text-lg font-bold">Student Submission</div>
-    <button class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
+    <form action="logout" method="get">
+        <button type="submit" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition">
+            Logout
+        </button>
+    </form>
 </nav>
 
 <div class="container mx-auto p-4">
@@ -78,18 +37,38 @@
             <button class="tab-button px-4 py-2 rounded transition bg-gray-300 text-gray-800" onclick="showTab('submitted', this)">Submitted</button>
         </div>
         <div id="unsubmitted" class="tab-content">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="bg-gray-200 p-4 rounded relative group hover:bg-gray-300 transition">
-                    <h3 class="font-semibold">Assignment 1</h3>
-                    <p>Course: Math 101</p>
-                    <p>Instructor: Prof. Smith</p>
-                    <p><strong>Deadline:</strong> 2025-03-15</p>
-                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition flex space-x-2">
-                        <button class="bg-green-500 text-white px-3 py-2 rounded">Download</button>
-                        <button class="bg-indigo-500 text-white px-3 py-2 rounded">Submit</button>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <c:choose>
+            <c:when test="${not empty recentAssignments}">
+                <c:forEach items="${recentAssignments}" var="assignment">
+                    <div class="relative bg-white shadow-md p-6 rounded-lg group transition hover:shadow-lg hover:bg-gray-100">
+                        <h3 class="font-semibold text-lg text-gray-800">${assignment.title}</h3>
+                        <p class="text-sm text-gray-600 mt-1">${assignment.description}</p>
+                        <p class="text-sm text-gray-600 mt-1">
+                            <strong>Deadline:</strong> ${assignment.deadline}
+                        </p>
+
+                        <!-- Hidden buttons, shown on hover -->
+                        <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition flex space-x-2">
+<%--                            <form action="download-assignment?assignmentId=${assignment.id}" method="get">--%>
+                                <a href="download-assignment?assignmentId=${assignment.id}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                                    Download
+                                </a>
+<%--                            </form>--%>
+
+                            <button class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition">
+                                Submit
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p class="text-gray-500">No assignments available.</p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
         </div>
         <div id="submitted" class="tab-content hidden">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

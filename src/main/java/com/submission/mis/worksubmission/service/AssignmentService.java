@@ -27,6 +27,13 @@ public class AssignmentService {
             session.getTransaction().commit();
         }
     }
+    public List<Assignment> getRecentAssignments() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Assignment WHERE deadline >= CURRENT_DATE", Assignment.class)
+                    .list();
+        }
+    }
+
 
     public List<Assignment> getAssignmentsByInstructor(int instructorId) {
         try (Session session = sessionFactory.openSession()) {

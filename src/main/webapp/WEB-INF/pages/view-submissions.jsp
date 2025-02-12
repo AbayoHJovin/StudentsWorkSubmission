@@ -10,7 +10,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Submissions for ${assignment.title}</h1>
-        <a href="view-assignments?courseId=${assignment.course.id}" class="bg-blue-500 text-white px-4 py-2 rounded">Back to Assignments</a>
+        <a href="${pageContext.request.contextPath}/instructor-dashboard" class="bg-blue-500 text-white px-4 py-2 rounded">Back to dashboard</a>
     </div>
 
     <!-- Submissions Table -->

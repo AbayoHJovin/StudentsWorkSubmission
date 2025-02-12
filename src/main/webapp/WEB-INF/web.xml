@@ -55,5 +55,14 @@
         <servlet-name>CreateAssignmentServlet</servlet-name>
         <url-pattern>/create-assignment</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DownloadAssignment</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.DownloadAssignmentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DownloadAssignment</servlet-name>
+        <url-pattern>/download-assignment</url-pattern>
+    </servlet-mapping>
 
 </web-app>
