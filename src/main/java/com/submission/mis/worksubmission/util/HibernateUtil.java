@@ -13,16 +13,7 @@ public class HibernateUtil {
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-            Configuration configuration = new Configuration();
-            Properties settings = new Properties();
-            settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-            settings.put(Environment.URL, "jdbc:mysql://localhost:3306/worksubmission");
-            settings.put(Environment.USER, "root");
-            settings.put(Environment.PASS, "JOVIN19");
-            settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-            settings.put(Environment.SHOW_SQL, true);
-            settings.put(Environment.HBM2DDL_AUTO, "update");
-            configuration.setProperties(settings);
+            Configuration configuration = getConfiguration();
             configuration.addAnnotatedClass(Student.class);
             configuration.addAnnotatedClass(Course.class);
             configuration.addAnnotatedClass(Instructor.class);
@@ -33,6 +24,20 @@ public class HibernateUtil {
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         }
         return sessionFactory;
+    }
+
+    private static Configuration getConfiguration() {
+        Configuration configuration = new Configuration();
+        Properties settings = new Properties();
+        settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+        settings.put(Environment.URL, "jdbc:mysql://localhost:3306/worksubmission");
+        settings.put(Environment.USER, "root");
+        settings.put(Environment.PASS, "JOVIN19");
+        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        settings.put(Environment.SHOW_SQL, true);
+        settings.put(Environment.HBM2DDL_AUTO, "update");
+        configuration.setProperties(settings);
+        return configuration;
     }
 }
 

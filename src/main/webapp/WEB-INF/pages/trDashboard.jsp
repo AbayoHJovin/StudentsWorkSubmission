@@ -41,9 +41,7 @@
                             <p class="text-sm text-gray-600">${assignment.description}</p>
                             <p class="text-sm text-gray-600"><strong>Deadline:</strong> ${assignment.deadline}</p>
                             <div class="mt-2 space-x-2">
-                                <a href="view-submissions?assignmentId=${assignment.id}" class="bg-blue-500 text-white px-3 py-1 rounded">View Submissions</a>
-                                <a href="edit-assignment?id=${assignment.id}" class="bg-yellow-500 text-white px-3 py-1 rounded">Edit</a>
-                                <a href="delete-assignment?id=${assignment.id}" class="bg-red-500 text-white px-3 py-1 rounded">Delete</a>
+                                <a href="viewAssignment?assignmentId=${assignment.id}" class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
                             </div>
                         </div>
                     </c:forEach>

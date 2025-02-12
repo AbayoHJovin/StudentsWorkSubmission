@@ -55,6 +55,7 @@
         <servlet-name>CreateAssignmentServlet</servlet-name>
         <url-pattern>/create-assignment</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>DownloadAssignment</servlet-name>
         <servlet-class>com.submission.mis.worksubmission.controllers.DownloadAssignmentServlet</servlet-class>
@@ -64,5 +65,22 @@
         <servlet-name>DownloadAssignment</servlet-name>
         <url-pattern>/download-assignment</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewAssignment</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.ViewAssignmentServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>ViewAssignment</servlet-name>
+        <url-pattern>/viewAssignment</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SubmitAssignment</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.SubmitAssignmentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SubmitAssignment</servlet-name>
+        <url-pattern>/submitAssignment</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -56,9 +56,9 @@
                                 </a>
 <%--                            </form>--%>
 
-                            <button class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition">
+                            <a href="${pageContext.request.contextPath}/submitAssignment?assignmentId=${assignment.id}" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition">
                                 Submit
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </c:forEach>
@@ -94,6 +94,7 @@
             <p class="text-sm text-gray-600 font-semibold">Instructors:</p>
         <ul class="ml-4">
         <c:forEach items="${course.instructors}" var="instructor">
+            <li class="mb-4 p-4 rounded transition">
             <li class="mb-4 p-4 rounded transition">
                 <p>${instructor.firstName} ${instructor.lastName}</p>
                 <p>${instructor.email}</p>
