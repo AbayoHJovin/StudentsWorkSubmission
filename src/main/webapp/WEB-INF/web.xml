@@ -83,4 +83,21 @@
         <servlet-name>SubmitAssignment</servlet-name>
         <url-pattern>/submitAssignment</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DownloadAllSubmissionsServlet</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.DownloadAllSubmissionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadAllSubmissionsServlet</servlet-name>
+        <url-pattern>/downloadAllSubmissions</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DownloadSubmissionServlet</servlet-name>
+        <servlet-class>com.submission.mis.worksubmission.controllers.DownloadSingleSubmission</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadSubmissionServlet</servlet-name>
+        <url-pattern>/downloadSubmission</url-pattern>
+    </servlet-mapping>
 </web-app>

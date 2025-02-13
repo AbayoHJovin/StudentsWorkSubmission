@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@WebServlet("/downloadSubmission")
 public class DownloadSubmissionServlet extends HttpServlet {
     private final SubmissionService submissionService = SubmissionService.getInstance();
 
